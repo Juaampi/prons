@@ -1,6 +1,6 @@
 # Prons Security
 
-Adaptación del sitio estático existente de Prons Seguridad para correr como proyecto full-stack simple sobre Netlify, manteniendo la identidad visual actual y agregando formulario productivo, Netlify Functions, Netlify DB, auth de admin, recordatorios por email y WhatsApp.
+Adaptación del sitio estático existente de Prons Seguridad para correr como proyecto full-stack simple sobre Netlify, manteniendo la identidad visual actual y agregando formulario productivo, Netlify Functions, base Postgres/Neon, auth de admin, recordatorios por email y WhatsApp.
 
 El build publica un `dist/` generado automáticamente a partir del frontend existente y de las nuevas páginas estáticas, para no exponer archivos internos del workspace como `lib/`, `scripts/` o `package.json`.
 
@@ -11,7 +11,7 @@ El build publica un `dist/` generado automáticamente a partir del frontend exis
 - Login admin en `/admin/login`
 - Panel admin en `/admin`
 - Netlify Functions para formulario, auth, clientes y recordatorios
-- Persistencia en Netlify DB (Postgres/Neon)
+- Persistencia en Postgres/Neon
 - Email HTML alineado con la estética del sitio
 - Integración desacoplada de WhatsApp Cloud API con modo mock
 - Modo desarrollo tolerante a falta de credenciales externas
@@ -21,13 +21,13 @@ El build publica un `dist/` generado automáticamente a partir del frontend exis
 - Node.js `20.12.2` o superior
 - npm `10+` recomendado
 - Cuenta de Netlify
-- Proyecto vinculado a Netlify para usar Netlify DB en forma simple
+- Cuenta de Netlify
+- Base Postgres o Neon disponible
 
-La máquina usada para preparar este cambio tenía Node `16.20.2`, por eso no pude ejecutar `netlify dev` ni verificar runtime real localmente desde acá. El stack quedó preparado para Node 20.12.2+, que es el mínimo exigido hoy por Netlify DB y Netlify CLI según la documentación oficial.
+La máquina usada para preparar este cambio tenía Node `16.20.2`, por eso no pude ejecutar `netlify dev` ni verificar runtime real localmente desde acá. El stack quedó preparado para Node 20.12.2+, que es el mínimo exigido hoy por Netlify CLI y el driver usado para Postgres/Neon.
 
 Fuentes oficiales usadas:
 
-- Netlify DB: https://docs.netlify.com/build/data-and-storage/netlify-db/
 - Netlify Functions: https://docs.netlify.com/build/functions/get-started/
 - Variables de entorno en functions: https://docs.netlify.com/build/functions/environment-variables/
 
@@ -61,7 +61,7 @@ npm run auth:hash -- "tu-password-segura"
 
 - `NETLIFY_DATABASE_URL`
 
-En la práctica, Netlify la crea automáticamente al usar Netlify DB. También puede quedar disponible al correr `npx netlify db init` o al usar `npx netlify dev` en un sitio ya vinculado.
+Debe configurarse manualmente con la connection string de tu base Postgres o Neon tanto en local como en Netlify.
 
 ### Email
 
@@ -80,17 +80,9 @@ Si faltan, el flujo no se rompe: la function registra el cliente y el servicio d
 
 Si faltan, el flujo no se rompe: la function registra el cliente y WhatsApp queda en modo mock.
 
-## Inicializar Netlify DB
+## Inicializar la base de datos
 
-Opción recomendada por Netlify:
-
-```bash
-npx netlify login
-npx netlify link
-npx netlify db init
-```
-
-Luego aplicar la migración:
+Una vez creada la base y configurada `NETLIFY_DATABASE_URL`, aplicar la migración:
 
 ```bash
 npm run db:migrate
@@ -117,7 +109,7 @@ SQL base: `migrations/001_create_clients.sql`
 ## Cómo iniciar localmente
 
 1. Tener `.env` completo.
-2. Tener el sitio vinculado a Netlify.
+2. Tener `NETLIFY_DATABASE_URL` configurada.
 3. Levantar el entorno:
 
 ```bash
@@ -171,7 +163,7 @@ Flujo simple recomendado:
 1. Crear repo GitHub y subir este proyecto.
 2. Importar el repo en Netlify.
 3. Configurar variables de entorno en Netlify UI.
-4. Confirmar que el sitio esté vinculado a Netlify DB o correr `npx netlify db init`.
+4. Configurar `NETLIFY_DATABASE_URL` en Netlify con la base correspondiente.
 5. Ejecutar la migración contra la base correspondiente.
 6. Hacer push a GitHub.
 
