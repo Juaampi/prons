@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login | Prons Seguridad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/assets/isologo.ico" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-grid"></div>
+
+    <header class="header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Prons Seguridad">
+          <img src="/assets/logo-prons.png" alt="Prons Seguridad" />
+        </a>
+
+        <nav class="nav">
+          <a href="/">Sitio</a>
+          <a href="/formulario">Formulario</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section page-hero page-hero-admin">
+        <div class="container auth-layout">
+          <div class="page-hero-copy reveal">
+            <span class="kicker">Administración</span>
+            <h1>Ingresá al panel de clientes.</h1>
+            <p>
+              Acceso protegido para revisar consultas, buscar clientes y disparar recordatorios
+              por email o WhatsApp sin exponer credenciales en el frontend.
+            </p>
+          </div>
+
+          <div class="auth-card reveal">
+            <div class="auth-card-head">
+              <p class="wizard-kicker">Login admin</p>
+              <h3>Sesión segura</h3>
+            </div>
+
+            <form id="admin-login-form" class="stack-form">
+              <label class="contact-mini-field">
+                <span>Usuario o email</span>
+                <input id="admin-identifier" name="identifier" type="text" autocomplete="username" required />
+              </label>
+
+              <label class="contact-mini-field">
+                <span>Contraseña</span>
+                <input id="admin-password" name="password" type="password" autocomplete="current-password" required />
+              </label>
+
+              <div class="form-feedback is-hidden" id="admin-login-feedback"></div>
+              <button class="button button-primary auth-submit" type="submit">Ingresar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/assets/js/admin-login.js" type="module"></script>
+  </body>
+</html>

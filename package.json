@@ -1,0 +1,34 @@
+{
+  "name": "prons-security",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx netlify dev",
+    "build": "npx netlify build",
+    "serve": "npx netlify serve",
+    "build:static": "node ./scripts/build-static.js",
+    "db:migrate": "node ./scripts/run-migration.js",
+    "auth:hash": "node ./scripts/hash-password.js",
+    "db:generate": "drizzle-kit generate",
+    "db:studio": "netlify dev:exec drizzle-kit studio"
+  },
+  "engines": {
+    "node": ">=20.12.2"
+  },
+  "dependencies": {
+    "@netlify/functions": "^5.2.0",
+    "@netlify/neon": "^0.1.2",
+    "bcryptjs": "^3.0.3",
+    "cookie": "^1.1.1",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "jose": "^6.2.2",
+    "resend": "^6.12.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10",
+    "netlify-cli": "^25.0.0"
+  }
+}

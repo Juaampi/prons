@@ -1,0 +1,13 @@
+[build]
+  command = "node ./scripts/build-static.js"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[build.processing.html]
+  pretty_urls = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+  force = true

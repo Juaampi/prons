@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | Prons Seguridad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/assets/isologo.ico" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-grid"></div>
+
+    <header class="header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Prons Seguridad">
+          <img src="/assets/logo-prons.png" alt="Prons Seguridad" />
+        </a>
+
+        <nav class="nav">
+          <a href="/">Sitio</a>
+          <a href="/formulario">Formulario</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="button button-secondary" id="admin-logout" type="button">Cerrar sesión</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section page-hero page-hero-admin">
+        <div class="container admin-hero">
+          <div class="page-hero-copy reveal">
+            <span class="kicker">Panel de clientes</span>
+            <h1>Consultas registradas en Netlify DB.</h1>
+            <p>
+              Buscá por nombre, navegá páginas y dispará recordatorios individuales desde un panel
+              consistente con la estética actual del sitio.
+            </p>
+          </div>
+
+          <div class="stats-strip reveal" id="admin-stats">
+            <div class="stat-card">
+              <span>Total visible</span>
+              <strong id="stats-total">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Página actual</span>
+              <strong id="stats-page">1</strong>
+            </div>
+            <div class="stat-card">
+              <span>Estado</span>
+              <strong>nuevo</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container panel-shell reveal">
+          <div class="panel-toolbar">
+            <form class="search-bar" id="admin-search-form">
+              <input id="admin-search" type="search" placeholder="Buscar cliente por nombre" />
+              <button class="button button-primary" type="submit">Buscar</button>
+            </form>
+
+            <div class="panel-toolbar-actions">
+              <button class="button button-secondary" id="admin-refresh" type="button">Actualizar</button>
+            </div>
+          </div>
+
+          <div class="form-feedback is-hidden" id="admin-panel-feedback"></div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Cliente</th>
+                  <th>Contacto</th>
+                  <th>Proyecto</th>
+                  <th>Fecha</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="admin-clients-body">
+                <tr>
+                  <td colspan="5">Cargando clientes...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination-bar">
+            <button class="button button-secondary" id="admin-prev" type="button">Anterior</button>
+            <span id="admin-pagination-text">Página 1</span>
+            <button class="button button-secondary" id="admin-next" type="button">Siguiente</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/assets/js/admin-panel.js" type="module"></script>
+  </body>
+</html>

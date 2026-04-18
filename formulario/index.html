@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formulario | Prons Seguridad</title>
+    <meta
+      name="description"
+      content="Completá el formulario de Prons Seguridad para recibir asesoramiento técnico y comercial."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/assets/isologo.ico" />
+    <link rel="shortcut icon" href="/assets/isologo.ico" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="form-only-page">
+    <div class="page-grid"></div>
+
+    <header class="header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Prons Seguridad">
+          <img src="/assets/logo-prons.png" alt="Prons Seguridad" />
+        </a>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-nav"
+          aria-label="Abrir menú"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="nav" id="site-nav">
+          <a href="/#soluciones">Soluciones</a>
+          <a href="/#porque">Información</a>
+          <a href="/formulario">Formulario</a>
+          <a href="/#contacto">Contacto</a>
+          <a class="nav-mobile-cta" href="tel:+541138539758">11 3853 9758</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="phone-link" href="tel:+541138539758">11 3853 9758</a>
+          <a class="button button-primary" href="https://wa.me/5491138539758" target="_blank" rel="noreferrer">WhatsApp</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section form-only-section">
+        <div class="container form-only-shell">
+          <div class="form-only-head reveal">
+            <span class="kicker">Formulario público</span>
+            <h1>Completá tu consulta.</h1>
+            <p>
+              Dejanos los datos del proyecto y tu contacto para que el equipo comercial pueda
+              preparar la propuesta.
+            </p>
+          </div>
+
+          <div class="wizard reveal" id="lead-wizard">
+            <div class="wizard-top">
+              <div>
+                <p class="wizard-kicker">Asesoramiento</p>
+                <h3 id="lead-question">¿Qué tipo de proyecto querés proteger?</h3>
+              </div>
+              <div class="wizard-progress">
+                <span id="lead-step-text">Paso 1 de 3</span>
+                <div class="wizard-progress-bar">
+                  <span id="lead-progress-bar"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="wizard-feedback is-hidden" id="lead-feedback"></div>
+            <div class="wizard-options" id="lead-options"></div>
+
+            <div class="wizard-actions wizard-actions-spread">
+              <button class="button button-secondary is-hidden" id="lead-back" type="button">Atrás</button>
+              <a class="simple-link" href="/">Volver al sitio</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-bottom footer-bottom-simple">
+        <div class="footer-meta">
+          <a href="/politica-de-privacidad">Política de privacidad</a>
+          <a href="/terminos-y-condiciones">Términos y condiciones</a>
+        </div>
+        <p class="footer-credit">
+          Desarrollado por <a href="https://andinaweb.com.ar" target="_blank" rel="noreferrer">Andina Web</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="/assets/js/formulario.js" type="module"></script>
+  </body>
+</html>
