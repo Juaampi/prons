@@ -4,6 +4,30 @@ import { badRequest, jsonResponse, methodNotAllowed, parseJsonBody, serverError 
 import { validateClientPayload } from "../../../lib/validation.js";
 import { sendNewLeadWhatsapp } from "../../../lib/whatsapp.js";
 
+function getCreateClientErrorMessage(error) {
+  const message = String(error?.message || error || "");
+  const code = String(error?.code || "");
+
+  if (message.includes("NETLIFY_DATABASE_URL")) {
+    return "La base de datos no esta configurada en el deploy";
+  }
+
+  if (message.includes('relation "clients" does not exist') || code === "42P01") {
+    return "La base de datos no tiene la tabla de clientes creada";
+  }
+
+  if (
+    message.includes("connect") ||
+    message.includes("connection") ||
+    message.includes("fetch failed") ||
+    code === "ECONNREFUSED"
+  ) {
+    return "No se pudo conectar con la base de datos";
+  }
+
+  return "No se pudo registrar la consulta";
+}
+
 export async function handler(event) {
   if (event.httpMethod !== "POST") {
     return methodNotAllowed(["POST"]);
@@ -33,6 +57,6 @@ export async function handler(event) {
       })),
     });
   } catch (error) {
-    return serverError(error, "No se pudo registrar la consulta");
+    return serverError(error, getCreateClientErrorMessage(error));
   }
 }
