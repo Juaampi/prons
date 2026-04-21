@@ -116,7 +116,7 @@ function renderWizardResult() {
       <strong>Continuar con tus datos</strong>
       <span>Completá nombre, email y teléfono para dejar el proyecto registrado.</span>
     </a>
-    <a class="wizard-option is-text-only" href="https://wa.me/5491138539758" target="_blank" rel="noreferrer">
+    <a class="wizard-option is-text-only" href="https://wa.me/5491138632509" target="_blank" rel="noreferrer">
       <strong>Hablar por WhatsApp</strong>
       <span>Si preferís contacto inmediato, te abrimos el chat directo con Prons.</span>
     </a>
@@ -236,6 +236,6 @@ if (contactMiniForm) {
       `Hola Prons, quiero recibir asesoramiento.\nNombre: ${name}\nTeléfono: ${phone}\nMotivo: ${reason}`
     );
 
-    window.open(`https://wa.me/5491138539758?text=${text}`, "_blank", "noopener,noreferrer");
+    window.open(`https://wa.me/5491138632509?text=${text}`, "_blank", "noopener,noreferrer");
   });
 }

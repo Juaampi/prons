@@ -50,6 +50,19 @@ export function setupResponsiveMenu() {
     });
   });
 
+  document.querySelectorAll('a[href="/"], a[href="#inicio"]').forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+      const targetPath = link.getAttribute("href");
+
+      if (currentPath === "/" && (targetPath === "/" || targetPath === "#inicio")) {
+        event.preventDefault();
+        closeMenu();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+  });
+
   window.addEventListener("resize", () => {
     if (window.innerWidth > 1100) {
       closeMenu();

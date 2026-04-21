@@ -234,7 +234,7 @@ function renderSuccess(client) {
       </div>
       <div class="wizard-actions wizard-actions-spread">
         <a class="button button-primary" href="/">Volver al inicio</a>
-        <a class="button button-secondary" href="https://wa.me/5491138539758" target="_blank" rel="noreferrer">Abrir WhatsApp</a>
+        <a class="button button-secondary" href="https://wa.me/5491138632509" target="_blank" rel="noreferrer">Abrir WhatsApp</a>
       </div>
     </div>
   `;
