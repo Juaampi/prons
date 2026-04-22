@@ -79,6 +79,7 @@ Si faltan, el flujo no se rompe: la function registra el cliente y el servicio d
 - `WHATSAPP_VERIFY_TOKEN`
 - `WHATSAPP_API_VERSION` opcional, por defecto `v23.0`
 - `WHATSAPP_APP_SECRET` opcional pero recomendado para validar firma del webhook
+- `WHATSAPP_INBOX_AUTO_REPLY_TEXT` opcional; si no se define, usa el mensaje automático por defecto del inbox
 - `WHATSAPP_TEMPLATE_FORM_SUBMITTED`
 - `WHATSAPP_TEMPLATE_REMINDER`
 - `WHATSAPP_TEMPLATE_LANG` opcional, por defecto `es_AR`
@@ -169,6 +170,7 @@ La nueva bandeja en `/admin/whatsapp` permite:
 - marcar como leída una conversación al abrirla
 - responder mensajes desde el panel
 - registrar qué usuario envió cada respuesta
+- enviar una auto-respuesta por cada mensaje entrante
 
 ### Limitaciones actuales del MVP
 
