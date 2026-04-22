@@ -21,17 +21,24 @@ if (!process.env.NETLIFY_DATABASE_URL) {
   }
 }
 
-const migrationPath = path.resolve("migrations", "001_create_clients.sql");
 const sql = getSql();
-const migrationSql = await fs.readFile(migrationPath, "utf8");
+const migrationsDir = path.resolve("migrations");
+const entries = await fs.readdir(migrationsDir);
+const migrationFiles = entries
+  .filter((entry) => entry.endsWith(".sql"))
+  .sort((left, right) => left.localeCompare(right, "en"));
 
-const statements = migrationSql
-  .split(/;\s*$/m)
-  .map((statement) => statement.trim())
-  .filter(Boolean);
+for (const file of migrationFiles) {
+  const migrationPath = path.join(migrationsDir, file);
+  const migrationSql = await fs.readFile(migrationPath, "utf8");
+  const statements = migrationSql
+    .split(/;\s*$/m)
+    .map((statement) => statement.trim())
+    .filter(Boolean);
 
-for (const statement of statements) {
-  await sql.query(statement);
+  for (const statement of statements) {
+    await sql.query(statement);
+  }
+
+  console.log("Migration applied:", migrationPath);
 }
-
-console.log("Migration applied:", migrationPath);

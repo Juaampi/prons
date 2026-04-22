@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhatsApp Inbox | Prons Seguridad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="/assets/isologo.ico" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="page-grid"></div>
+
+    <header class="header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="Prons Seguridad">
+          <img src="/assets/logo-prons.png" alt="Prons Seguridad" />
+        </a>
+
+        <nav class="nav">
+          <a href="/">Sitio</a>
+          <a href="/admin/">Clientes</a>
+          <a href="/admin/whatsapp/" aria-current="page">WhatsApp Inbox</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="button button-secondary" id="admin-logout" type="button">Cerrar sesión</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section page-hero page-hero-admin">
+        <div class="container admin-hero">
+          <div class="page-hero-copy reveal">
+            <span class="kicker">WhatsApp Inbox</span>
+            <h1>Conversaciones reales desde WhatsApp Cloud API.</h1>
+            <p>
+              Recibí mensajes por webhook, seguí conversaciones en una bandeja simple y respondé
+              desde el panel con registro del usuario que intervino.
+            </p>
+          </div>
+
+          <div class="stats-strip reveal">
+            <div class="stat-card">
+              <span>Conversaciones visibles</span>
+              <strong id="whatsapp-stats-total">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>No leídas</span>
+              <strong id="whatsapp-stats-unread">0</strong>
+            </div>
+            <div class="stat-card">
+              <span>Usuario activo</span>
+              <strong id="whatsapp-current-user">-</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container reveal">
+          <div class="panel-toolbar whatsapp-toolbar">
+            <form class="search-bar" id="whatsapp-search-form">
+              <input id="whatsapp-search" type="search" placeholder="Buscar por nombre o teléfono" />
+              <button class="button button-primary" type="submit">Buscar</button>
+            </form>
+
+            <div class="panel-toolbar-actions whatsapp-toolbar-actions">
+              <label class="toggle-check">
+                <input id="whatsapp-only-unread" type="checkbox" />
+                <span>Solo no leídos</span>
+              </label>
+              <button class="button button-secondary" id="whatsapp-refresh" type="button">Actualizar</button>
+            </div>
+          </div>
+
+          <div class="form-feedback is-hidden" id="whatsapp-panel-feedback"></div>
+
+          <div class="whatsapp-inbox-shell">
+            <aside class="whatsapp-sidebar">
+              <div class="whatsapp-sidebar-head">
+                <h2>Conversaciones</h2>
+                <span id="whatsapp-pagination-text">Página 1</span>
+              </div>
+              <div class="whatsapp-conversation-list" id="whatsapp-conversation-list">
+                <article class="whatsapp-conversation-card is-empty">
+                  <p>Cargando conversaciones...</p>
+                </article>
+              </div>
+              <div class="pagination-bar whatsapp-pagination">
+                <button class="button button-secondary" id="whatsapp-prev" type="button">Anterior</button>
+                <button class="button button-secondary" id="whatsapp-next" type="button">Siguiente</button>
+              </div>
+            </aside>
+
+            <section class="whatsapp-chat-panel">
+              <div class="whatsapp-chat-head" id="whatsapp-chat-head">
+                <div>
+                  <p class="whatsapp-chat-kicker">Seleccioná una conversación</p>
+                  <h2 id="whatsapp-chat-title">Sin conversación activa</h2>
+                  <p id="whatsapp-chat-meta">Elegí un chat del listado para ver los mensajes.</p>
+                </div>
+              </div>
+
+              <div class="whatsapp-messages" id="whatsapp-messages">
+                <div class="whatsapp-empty-state">
+                  <h3>Inbox listo</h3>
+                  <p>Cuando abras una conversación, acá vas a ver el historial y la caja de respuesta.</p>
+                </div>
+              </div>
+
+              <form class="whatsapp-reply-form" id="whatsapp-reply-form">
+                <label for="whatsapp-reply-text">Responder</label>
+                <textarea
+                  id="whatsapp-reply-text"
+                  rows="3"
+                  maxlength="4096"
+                  placeholder="Escribí un mensaje de WhatsApp"
+                  disabled
+                ></textarea>
+                <div class="whatsapp-reply-actions">
+                  <span id="whatsapp-reply-hint">Abrí una conversación para responder.</span>
+                  <button class="button button-primary" id="whatsapp-send-button" type="submit" disabled>
+                    Enviar mensaje
+                  </button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/assets/js/admin-whatsapp.js" type="module"></script>
+  </body>
+</html>

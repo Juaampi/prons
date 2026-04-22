@@ -1,4 +1,9 @@
-import { createSessionCookie, createSessionToken, verifyAdminCredentials } from "../../../lib/auth.js";
+import {
+  createSessionCookie,
+  createSessionToken,
+  registerSuccessfulLogin,
+  verifyAdminCredentials,
+} from "../../../lib/auth.js";
 import { badRequest, jsonResponse, methodNotAllowed, parseJsonBody, serverError, unauthorized } from "../../../lib/http.js";
 import { validateLoginPayload } from "../../../lib/validation.js";
 
@@ -15,20 +20,29 @@ export async function handler(event) {
       return badRequest("Validation failed", validation.errors);
     }
 
-    const isValid = await verifyAdminCredentials(
+    const user = await verifyAdminCredentials(
       validation.data.identifier,
       validation.data.password
     );
 
-    if (!isValid) {
+    if (!user) {
       return unauthorized("Credenciales invalidas");
     }
 
-    const token = await createSessionToken(validation.data.identifier);
+    await registerSuccessfulLogin(user);
+    const token = await createSessionToken(user);
 
     return jsonResponse(
       200,
-      { ok: true, user: { identifier: validation.data.identifier } },
+      {
+        ok: true,
+        user: {
+          id: user.id,
+          identifier: user.identifier,
+          role: user.role,
+          displayName: user.displayName || user.identifier,
+        },
+      },
       { "Set-Cookie": createSessionCookie(token) }
     );
   } catch (error) {

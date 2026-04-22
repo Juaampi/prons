@@ -10,7 +10,15 @@ export async function handler(event) {
 
   return jsonResponse(200, {
     ok: true,
-    authenticated: Boolean(session?.role === "admin"),
-    user: session?.role === "admin" ? { identifier: session.sub } : null,
+    authenticated: Boolean(session?.role === "admin" || session?.role === "seller"),
+    user:
+      session?.role === "admin" || session?.role === "seller"
+        ? {
+            id: session.uid || null,
+            identifier: session.sub,
+            role: session.role,
+            displayName: session.name || session.sub,
+          }
+        : null,
   });
 }
