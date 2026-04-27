@@ -1,4 +1,5 @@
 import { createClientRecord } from "../../../lib/clients.js";
+import { createClientActivityLog } from "../../../lib/client-activity.js";
 import { sendNewLeadEmail } from "../../../lib/email.js";
 import { badRequest, jsonResponse, methodNotAllowed, parseJsonBody, serverError } from "../../../lib/http.js";
 import { validateClientPayload } from "../../../lib/validation.js";
@@ -42,6 +43,17 @@ export async function handler(event) {
     }
 
     const client = await createClientRecord(validation.data);
+    await createClientActivityLog({
+      clientId: client.id,
+      actionType: "client_created_form",
+      message: "Formulario web creo el contacto.",
+      metadata: {
+        source: client.source,
+        status: client.status,
+      },
+      actorName: "Formulario web",
+      actorRole: "system",
+    });
     const notifications = await Promise.allSettled([
       sendNewLeadEmail(client),
       sendNewLeadWhatsapp(client),

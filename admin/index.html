@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin | Prons Seguridad</title>
+    <title>CRM | Prons Seguridad</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,98 +13,200 @@
     <link rel="icon" type="image/png" href="/assets/isologo.ico" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
-  <body>
+  <body class="crm-body">
     <div class="page-grid"></div>
 
-    <header class="header">
-      <div class="container header-inner">
-        <a class="brand" href="/" aria-label="Prons Seguridad">
-          <img src="/assets/logo-prons.png" alt="Prons Seguridad" />
-        </a>
+    <main class="crm-layout">
+      <aside class="crm-sidebar">
+        <div class="crm-sidebar-brand">
+          <a class="brand" href="/" aria-label="Prons Seguridad">
+            <img src="/assets/logo-prons.png" alt="Prons Seguridad" />
+          </a>
+          <span>CRM comercial</span>
+        </div>
 
-        <nav class="nav">
-          <a href="/">Sitio</a>
-          <a href="/formulario">Formulario</a>
-          <a href="/admin/whatsapp/">WhatsApp Inbox</a>
+        <nav class="crm-nav" aria-label="Menu CRM">
+          <a class="crm-nav-link" href="/admin/" data-crm-view="dashboard">
+            <span>Panel de control</span>
+          </a>
+          <a class="crm-nav-link is-active" href="/admin/" data-crm-view="prospects" aria-current="page">
+            <span>Clientes potenciales</span>
+          </a>
+          <a class="crm-nav-link" href="/admin/" data-crm-view="current">
+            <span>Clientes actuales</span>
+          </a>
+          <a class="crm-nav-link" href="/admin/" data-crm-view="in-progress">
+            <span>En proceso</span>
+          </a>
+          <a class="crm-nav-link" href="/admin/" data-crm-view="discarded">
+            <span>No clientes</span>
+          </a>
+          <a class="crm-nav-link" href="/admin/" data-crm-view="all">
+            <span>Todos los clientes</span>
+          </a>
         </nav>
 
-        <div class="header-actions">
-          <button class="button button-secondary" id="admin-logout" type="button">Cerrar sesión</button>
+        <div class="crm-sidebar-footer">
+          <a class="crm-nav-link" href="/admin/whatsapp/">
+            <span>WhatsApp Inbox</span>
+          </a>
+          <button class="crm-nav-link crm-nav-link-logout" id="admin-logout" type="button">
+            <span>Cerrar sesion</span>
+          </button>
         </div>
-      </div>
-    </header>
+      </aside>
 
-    <main>
-      <section class="section page-hero page-hero-admin">
-        <div class="container admin-hero">
-          <div class="page-hero-copy reveal">
-            <span class="kicker">Panel de clientes</span>
-            <h1>Consultas registradas en Netlify DB.</h1>
-            <p>
-              Buscá por nombre, navegá páginas y dispará recordatorios individuales desde un panel
-              consistente con la estética actual del sitio.
-            </p>
-          </div>
+      <section class="crm-main">
+        <div class="crm-shell">
+          <header class="crm-topbar reveal">
+            <div class="crm-topbar-copy">
+              <span class="kicker">Pipeline comercial</span>
+              <h1 id="crm-page-title">Clientes potenciales</h1>
+              <p id="crm-page-subtitle">Gestiona y convierte tus clientes potenciales en ventas.</p>
+            </div>
 
-          <div class="stats-strip reveal" id="admin-stats">
-            <div class="stat-card">
+            <div class="crm-topbar-actions">
+              <button class="button button-secondary" id="admin-export" type="button">Exportar</button>
+              <button class="button button-primary" id="admin-new-client" type="button">+ Nuevo cliente</button>
+            </div>
+          </header>
+
+          <section class="crm-stats-grid reveal" id="admin-stats">
+            <article class="crm-stat-card">
               <span>Total visible</span>
               <strong id="stats-total">0</strong>
-            </div>
-            <div class="stat-card">
-              <span>Página actual</span>
+              <small>Resultados cargados en la vista actual.</small>
+            </article>
+            <article class="crm-stat-card">
+              <span>Pagina actual</span>
               <strong id="stats-page">1</strong>
+              <small>Navegacion paginada del backend actual.</small>
+            </article>
+            <article class="crm-stat-card">
+              <span>Interesados</span>
+              <strong id="stats-qualified">0</strong>
+              <small>Estados en seguimiento comercial.</small>
+            </article>
+            <article class="crm-stat-card">
+              <span>No clientes</span>
+              <strong id="stats-discarded">0</strong>
+              <small>Descartados en esta pagina.</small>
+            </article>
+          </section>
+
+          <section class="crm-panel reveal">
+            <div class="crm-filters">
+              <form class="crm-search" id="admin-search-form">
+                <label class="crm-filter-field crm-filter-field-search" for="admin-search">
+                <span>Busqueda</span>
+                <input
+                  id="admin-search"
+                  type="search"
+                    placeholder="Buscar cliente por nombre, email o telefono..."
+                  />
+                </label>
+              </form>
+
+              <label class="crm-filter-field" for="admin-filter-status">
+                <span>Estado</span>
+                <select id="admin-filter-status">
+                  <option value="all">Todos</option>
+                  <option value="Contacto inicial">Contacto inicial</option>
+                  <option value="Real interesado">Real interesado</option>
+                  <option value="En evaluacion">En evaluacion</option>
+                  <option value="Negociacion">Negociacion</option>
+                  <option value="Cliente actual">Cliente actual</option>
+                  <option value="Compro">Compro</option>
+                  <option value="No interesado">No interesado</option>
+                  <option value="No cliente">No cliente</option>
+                </select>
+              </label>
+
+              <label class="crm-filter-field" for="admin-filter-origin">
+                <span>Origen</span>
+                <select id="admin-filter-origin">
+                  <option value="all">Todos</option>
+                </select>
+              </label>
+
+              <label class="crm-filter-field" for="admin-filter-owner">
+                <span>Vendedor</span>
+                <select id="admin-filter-owner">
+                  <option value="all">Todos</option>
+                </select>
+              </label>
+
+              <button class="button button-secondary crm-filter-button" id="admin-filter-button" type="button">
+                Filtros
+              </button>
             </div>
-            <div class="stat-card">
-              <span>Estado</span>
-              <strong>nuevo</strong>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section class="section">
-        <div class="container panel-shell reveal">
-          <div class="panel-toolbar">
-            <form class="search-bar" id="admin-search-form">
-              <input id="admin-search" type="search" placeholder="Buscar cliente por nombre" />
-              <button class="button button-primary" type="submit">Buscar</button>
-            </form>
+            <div class="form-feedback is-hidden" id="admin-panel-feedback"></div>
 
-            <div class="panel-toolbar-actions">
-              <button class="button button-secondary" id="admin-refresh" type="button">Actualizar</button>
-            </div>
-          </div>
+            <div class="crm-table-shell">
+              <div class="crm-table-head">
+                <div>
+                  <h2 id="crm-table-title">Leads activos</h2>
+                  <p id="crm-table-subtitle">Tabla conectada a la logica actual de clientes, busqueda, paginacion y acciones.</p>
+                </div>
+                <button class="button button-secondary" id="admin-refresh" type="button">Actualizar</button>
+              </div>
 
-          <div class="form-feedback is-hidden" id="admin-panel-feedback"></div>
-
-          <div class="admin-table-wrap">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Cliente</th>
-                  <th>Contacto</th>
-                  <th>Proyecto</th>
-                  <th>Fecha</th>
+              <div class="admin-table-wrap crm-table-wrap">
+                <table class="admin-table crm-table">
+                  <thead>
+                    <tr>
+                      <th>Cliente</th>
+                      <th>Contacto</th>
+                      <th>Estado</th>
+                      <th>Proyecto</th>
+                  <th>Ultimo contacto</th>
                   <th>Acciones</th>
                 </tr>
-              </thead>
-              <tbody id="admin-clients-body">
-                <tr>
-                  <td colspan="5">Cargando clientes...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                  </thead>
+                  <tbody id="admin-clients-body">
+                    <tr>
+                      <td colspan="6">Cargando clientes...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-          <div class="pagination-bar">
-            <button class="button button-secondary" id="admin-prev" type="button">Anterior</button>
-            <span id="admin-pagination-text">Página 1</span>
-            <button class="button button-secondary" id="admin-next" type="button">Siguiente</button>
-          </div>
+              <div class="pagination-bar crm-pagination">
+                <button class="button button-secondary" id="admin-prev" type="button">Anterior</button>
+                <span id="admin-pagination-text">Pagina 1</span>
+                <button class="button button-secondary" id="admin-next" type="button">Siguiente</button>
+              </div>
+            </div>
+          </section>
         </div>
       </section>
     </main>
+
+    <div class="crm-drawer-backdrop is-hidden" id="crm-drawer-backdrop"></div>
+    <aside class="crm-drawer is-hidden" id="crm-drawer" aria-hidden="true">
+      <div class="crm-drawer-head">
+        <div>
+          <span class="kicker" id="crm-drawer-kicker">Detalle del cliente</span>
+          <h2 id="crm-drawer-title">Sin cliente seleccionado</h2>
+          <p id="crm-drawer-subtitle">Selecciona un cliente para ver su informacion.</p>
+        </div>
+        <button class="crm-icon-button" id="crm-drawer-close" type="button" aria-label="Cerrar panel">
+          x
+        </button>
+      </div>
+
+      <div class="crm-drawer-body" id="crm-drawer-body">
+        <div class="crm-empty-drawer">
+          <p>La vista detalle, alta y edicion queda preparada para conectar con el backend actual.</p>
+        </div>
+      </div>
+
+      <div class="crm-drawer-actions" id="crm-drawer-actions">
+        <button class="button button-secondary" id="crm-drawer-cancel" type="button">Cerrar</button>
+        <button class="button button-primary" id="crm-drawer-save" type="button">Guardar cambios</button>
+      </div>
+    </aside>
 
     <script src="/assets/js/admin-panel.js" type="module"></script>
   </body>

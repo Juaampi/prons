@@ -1,4 +1,5 @@
 import { getClientById } from "../../../lib/clients.js";
+import { listClientActivityLogs } from "../../../lib/client-activity.js";
 import { requireAdmin } from "../../../lib/auth.js";
 import { badRequest, jsonResponse, methodNotAllowed, serverError } from "../../../lib/http.js";
 
@@ -27,7 +28,9 @@ export async function handler(event) {
       return badRequest("Client not found");
     }
 
-    return jsonResponse(200, { ok: true, client });
+    const activities = await listClientActivityLogs(clientId);
+
+    return jsonResponse(200, { ok: true, client, activities });
   } catch (error) {
     return serverError(error, "No se pudo obtener el cliente");
   }
