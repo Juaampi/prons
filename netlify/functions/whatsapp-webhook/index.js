@@ -2,7 +2,8 @@ import { badRequest, jsonResponse, methodNotAllowed, serverError } from "../../.
 import { getEnv } from "../../../lib/env.js";
 import { createOutboundMessage, processWhatsappWebhook, verifyWebhookSignature } from "../../../lib/whatsapp-inbox.js";
 import { createWebhookEvent } from "../../../lib/whatsapp-webhook-events.js";
-import { getWhatsappInboxAutoReplyText, sendWhatsappTextMessage } from "../../../lib/whatsapp.js";
+import { sendWhatsappTextMessage } from "../../../lib/whatsapp.js";
+import { GENERIC_FALLBACK_TEXT, generateAIResponse } from "../../../lib/whatsapp-ai.js";
 
 function getQueryValue(event, key) {
   return event.queryStringParameters?.[key] || event.multiValueQueryStringParameters?.[key]?.[0] || "";
@@ -86,10 +87,32 @@ export async function handler(event) {
 
     payload = JSON.parse(rawBody);
     const summary = await processWhatsappWebhook(payload);
-    const autoReplyText = getWhatsappInboxAutoReplyText().trim();
 
-    if (autoReplyText && Array.isArray(summary.inboundEvents) && summary.inboundEvents.length) {
+    if (Array.isArray(summary.inboundEvents) && summary.inboundEvents.length) {
       for (const inboundEvent of summary.inboundEvents) {
+        const incomingMessageText = String(inboundEvent.textBody || "").trim();
+        let autoReplyText = GENERIC_FALLBACK_TEXT;
+
+        console.info("WhatsApp inbound message received", {
+          phone: inboundEvent.phone,
+          waMessageId: inboundEvent.waMessageId,
+          hasText: Boolean(incomingMessageText),
+        });
+
+        try {
+          autoReplyText = await generateAIResponse(incomingMessageText);
+          console.info("WhatsApp AI response generated", {
+            phone: inboundEvent.phone,
+            replyPreview: autoReplyText.slice(0, 160),
+          });
+        } catch (aiError) {
+          console.error("WhatsApp AI response failed", {
+            phone: inboundEvent.phone,
+            error: String(aiError?.message || aiError),
+          });
+          autoReplyText = GENERIC_FALLBACK_TEXT;
+        }
+
         try {
           const response = await sendWhatsappTextMessage({
             to: inboundEvent.phone,
@@ -124,7 +147,7 @@ export async function handler(event) {
       processingResult: {
         ...summary,
         inboundEvents: summary.inboundEvents?.length || 0,
-        autoReplyAttempted: Boolean(autoReplyText && summary.inboundEvents?.length),
+        autoReplyAttempted: Boolean(summary.inboundEvents?.length),
       },
     });
 

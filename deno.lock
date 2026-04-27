@@ -11,8 +11,8 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@neondatabase/serverless@^1.0.1",
         "npm:@netlify/functions@^5.2.0",
-        "npm:@netlify/neon@~0.1.2",
         "npm:bcryptjs@^3.0.3",
         "npm:cookie@^1.1.1",
         "npm:dotenv@^17.4.2",
