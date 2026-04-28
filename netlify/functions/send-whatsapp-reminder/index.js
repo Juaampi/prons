@@ -1,7 +1,19 @@
 import { requireAdmin } from "../../../lib/auth.js";
 import { getClientById } from "../../../lib/clients.js";
 import { sendReminderWhatsapp } from "../../../lib/whatsapp.js";
-import { badRequest, jsonResponse, methodNotAllowed, parseJsonBody, serverError } from "../../../lib/http.js";
+import { badRequest, jsonResponse, methodNotAllowed, parseJsonBody } from "../../../lib/http.js";
+
+function getMetaErrorMessage(error) {
+  if (error?.details?.error_data?.details) {
+    return error.details.error_data.details;
+  }
+
+  if (error?.message) {
+    return error.message;
+  }
+
+  return "No se pudo enviar el recordatorio por WhatsApp";
+}
 
 export async function handler(event) {
   if (event.httpMethod !== "POST") {
@@ -31,6 +43,12 @@ export async function handler(event) {
     const result = await sendReminderWhatsapp(client);
     return jsonResponse(200, { ok: true, result });
   } catch (error) {
-    return serverError(error, "No se pudo enviar el recordatorio por WhatsApp");
+    console.error(error);
+
+    return jsonResponse(500, {
+      ok: false,
+      error: getMetaErrorMessage(error),
+      metaCode: error?.code || null,
+    });
   }
 }
