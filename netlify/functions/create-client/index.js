@@ -59,14 +59,17 @@ export async function handler(event) {
       sendNewLeadWhatsapp(client),
     ]);
 
+    const normalizedNotifications = notifications.map((item, index) => ({
+      channel: index === 0 ? "email" : "whatsapp",
+      ok: item.status === "fulfilled",
+      detail: item.status === "fulfilled" ? item.value : String(item.reason?.message || item.reason),
+    }));
+
     return jsonResponse(201, {
       ok: true,
       client,
-      notifications: notifications.map((item, index) => ({
-        channel: index === 0 ? "email" : "whatsapp",
-        ok: item.status === "fulfilled",
-        detail: item.status === "fulfilled" ? item.value : String(item.reason?.message || item.reason),
-      })),
+      notifications: normalizedNotifications,
+      notificationWarnings: normalizedNotifications.filter((item) => !item.ok),
     });
   } catch (error) {
     return serverError(error, getCreateClientErrorMessage(error));
