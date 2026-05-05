@@ -2574,6 +2574,13 @@ body.menu-open .menu-toggle span:nth-child(3) {
   border-color: rgba(32, 197, 109, 0.22);
 }
 
+.contact-card-email .contact-card-top h2 {
+  font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 .contact-card-top h2,
 .contact-support-copy h3 {
   margin: 0;
